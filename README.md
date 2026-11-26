@@ -13,7 +13,7 @@ Schedule the Nether, the End, or any modded dimension to open at a set date and 
 
 ## Status
 
-Design phase. See [docs/DESIGN.md](docs/DESIGN.md) for the v1.0 specification and [docs/RESEARCH.md](docs/RESEARCH.md) for the competitor research behind it.
+Design phase. No downloads yet.
 
 ## How it differs from existing mods
 
