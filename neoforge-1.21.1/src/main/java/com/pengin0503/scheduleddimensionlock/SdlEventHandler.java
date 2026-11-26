@@ -83,6 +83,20 @@ public final class SdlEventHandler {
     }
 
     @SubscribeEvent
+    public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+        if (!(event.getEntity() instanceof ServerPlayer player)) {
+            return;
+        }
+        MinecraftServer server = player.getServer();
+        if (server == null) {
+            return;
+        }
+        // Bed/anchor respawns do not fire EntityTravelToDimensionEvent, so check the destination directly.
+        ScheduleManager manager = SdlSavedData.get(server).getManager();
+        SdlService.checkAndEvacuatePlayer(server, player, manager);
+    }
+
+    @SubscribeEvent
     public static void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
         SdlService.getBlockedCooldown().remove(event.getEntity().getUUID());
     }
