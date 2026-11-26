@@ -18,6 +18,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
+import java.time.DateTimeException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -231,7 +232,7 @@ public final class SdlCommands {
             Duration duration = DurationParser.parse(raw);
             Instant target = Instant.now().plus(duration);
             return applyScheduleUnlock(source, dimId, target, zone);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | ArithmeticException | DateTimeException e) {
             source.sendFailure(SdlMessages.text("command.scheduleddimensionlock.error.invalid_argument", e.getMessage()));
             return 0;
         }
@@ -282,7 +283,7 @@ public final class SdlCommands {
             Duration duration = DurationParser.parse(raw);
             Instant target = Instant.now().plus(duration);
             return applyScheduleLock(source, dimId, target, zone);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | ArithmeticException | DateTimeException e) {
             source.sendFailure(SdlMessages.text("command.scheduleddimensionlock.error.invalid_argument", e.getMessage()));
             return 0;
         }

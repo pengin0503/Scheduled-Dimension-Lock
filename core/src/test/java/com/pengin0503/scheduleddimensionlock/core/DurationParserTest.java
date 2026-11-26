@@ -41,6 +41,20 @@ class DurationParserTest {
     }
 
     @Test
+    void rejectsDurationsLongerThanLimit() {
+        IllegalArgumentException tooManyDays = assertThrows(
+                IllegalArgumentException.class, () -> DurationParser.parse("36501d"));
+        assertEquals("Duration too long", tooManyDays.getMessage());
+        assertThrows(IllegalArgumentException.class, () -> DurationParser.parse("36500d1s"));
+    }
+
+    @Test
+    void acceptsDurationsWithinLimit() {
+        assertEquals(Duration.ofDays(36_500), DurationParser.parse("36500d"));
+        assertEquals(Duration.ofMinutes(90), DurationParser.parse("1h30m"));
+    }
+
+    @Test
     void formatsDurationsHumanReadably() {
         assertEquals("0s", DurationParser.format(Duration.ZERO));
         assertEquals("0s", DurationParser.format(Duration.ofSeconds(-5)));

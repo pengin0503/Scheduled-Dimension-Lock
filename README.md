@@ -13,7 +13,7 @@ Vanilla clients can join without installing the mod. Built-in `en_us` and `ja_jp
 - **In-Game Scheduling**: Operators can lock, unlock, schedule, clear, evacuate, and reload config entirely via commands — no config edits or restarts required.
 - **Defense in Depth**:
   - **Primary defense**: Cancels NeoForge's `EntityTravelToDimensionEvent` for all entities (players, mobs, items, portals, end gateways, `/tp`, `/execute in`). Operators with permission level 2+ bypass when `opBypass = true` (players only; non-player entities never bypass).
-  - **Secondary defense**: Every 20 ticks (and immediately on player login), any non-bypass player found inside a locked dimension is evacuated to the Overworld's world spawn (never a player's personal respawn point, preventing respawn loops).
+  - **Secondary defense**: When `evacuateOnLock = true` (default), every 20 ticks and immediately on login/respawn, any non-bypass player found inside a locked dimension is evacuated to the Overworld's world spawn (never a player's personal respawn point, preventing respawn loops). With `evacuateOnLock = false`, players already inside may stay; entering is still blocked by the primary defense.
   - *Note*: Custom dimension teleportation mechanisms implemented by other mods that bypass `EntityTravelToDimensionEvent` may not be intercepted by the primary defense; the periodic 20-tick evacuation check acts as the final safety net.
 - **Per-World Persistence**: Lock states and schedules are stored in world `SavedData` (`scheduleddimensionlock`). Malformed entries are discarded with a warning log rather than crashing the server.
 - **Overworld Protection**: `minecraft:overworld` can never be locked or scheduled.
@@ -58,13 +58,19 @@ Root command: `/sdl` (alias: `/scheduleddimensionlock`).
 
 ## Configuration
 
-Server config file (per world): `serverconfig/scheduleddimensionlock-server.toml`
+The config file is named `scheduleddimensionlock-server.toml` on every supported version and is generated in the **global config directory**, not under a world's `serverconfig/`:
+
+- **1.21.1**: `config/scheduleddimensionlock-server.toml`
+- **26.1.2 / 26.2**: `config/scheduleddimensionlock-server.toml`
+- **26.3**: `config/scheduleddimensionlock-server.toml` by default. FML 12 registers this slot as `SYNCED` instead of `SERVER`, so a per-world override at `<world>/syncedconfig/scheduleddimensionlock-server.toml` is additionally recognized, and the config values are synced to connected clients.
+
+Lock states and schedules themselves remain per-world (stored in world `SavedData`).
 
 | Key | Type | Default | Description |
 | --- | --- | --- | --- |
 | `timezone` | String | `""` (system default) | IANA timezone ID (e.g. `Asia/Tokyo`, `UTC`) used for parsing and displaying dates/times |
 | `opBypass` | Boolean | `true` | Allow players with permission level 2+ to bypass dimension locks (never applies to non-player entities) |
-| `evacuateOnLock` | Boolean | `true` | Automatically evacuate non-bypass players to Overworld world spawn when a dimension locks |
+| `evacuateOnLock` | Boolean | `true` | true: players inside are evacuated when a dimension locks and are also removed if found inside later (login/respawn/periodic check). false: players already inside may stay; entering a locked dimension is still blocked. |
 | `announceCountdown` | Boolean | `true` | Broadcast server-wide countdown announcements before scheduled unlocks and locks |
 | `countdownThresholds` | List\<String\> | `["7d", "1d", "12h", "1h", "10m", "5m", "1m"]` | Thresholds at which countdown announcements fire once per transition |
 | `blockedMessageCooldownSeconds` | Integer | `5` | Cooldown (seconds) to suppress repeated blocked-entry messages for the same player |

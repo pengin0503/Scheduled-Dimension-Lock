@@ -17,6 +17,7 @@ public final class DurationParser {
     private static final Pattern DURATION_PATTERN = Pattern.compile(
             "^(?:(?<days>\\d+)d)?(?:(?<hours>\\d+)h)?(?:(?<minutes>\\d+)m)?(?:(?<seconds>\\d+)s)?$"
     );
+    private static final long MAX_DURATION_SECONDS = 36_500L * 86_400L;
 
     private DurationParser() {
     }
@@ -26,7 +27,7 @@ public final class DurationParser {
      *
      * @param raw raw duration string
      * @return parsed positive {@link Duration}
-     * @throws IllegalArgumentException if the input is blank, malformed, overflows, or totals zero
+     * @throws IllegalArgumentException if the input is blank, malformed, overflows, is too long (over 36,500 days), or totals zero
      */
     public static Duration parse(String raw) {
         if (raw == null) {
@@ -63,6 +64,9 @@ public final class DurationParser {
             }
             if (secondsStr != null) {
                 totalSeconds = Math.addExact(totalSeconds, Long.parseLong(secondsStr));
+            }
+            if (totalSeconds > MAX_DURATION_SECONDS) {
+                throw new IllegalArgumentException("Duration too long");
             }
             if (totalSeconds <= 0L) {
                 throw new IllegalArgumentException("Duration must be positive: '" + raw + "'");

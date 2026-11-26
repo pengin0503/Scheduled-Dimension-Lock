@@ -103,6 +103,11 @@ public final class SdlService {
     }
 
     public static void checkAndEvacuatePlayer(MinecraftServer server, ServerPlayer player, ScheduleManager manager) {
+        // Login, respawn and the periodic sweep all find players already inside a dimension.
+        // With evacuation disabled they may stay; entry is still blocked by the travel handler.
+        if (!SdlConfig.isEvacuateOnLock()) {
+            return;
+        }
         String currentDim = player.level().dimension().identifier().toString();
         if (manager.isLocked(currentDim) && !isBypassPlayer(player)) {
             evacuatePlayer(server, player, currentDim);
@@ -126,9 +131,12 @@ public final class SdlService {
     }
 
     public static void evacuatePlayer(MinecraftServer server, ServerPlayer player, String fromDimensionId) {
+        if (player.isDeadOrDying()) {
+            return;
+        }
         ServerLevel overworld = server.overworld();
         LevelData.RespawnData respawnData = overworld.getRespawnData();
-        BlockPos spawnPos = respawnData.pos();
+        BlockPos spawnPos = findSafeSpawn(overworld, respawnData.pos());
         player.teleportTo(
                 overworld,
                 spawnPos.getX() + 0.5,
@@ -143,6 +151,18 @@ public final class SdlService {
                 SdlMessages.text("message.scheduleddimensionlock.evacuated", fromDimensionId)
                         .withStyle(ChatFormatting.RED)
         );
+    }
+
+    private static BlockPos findSafeSpawn(ServerLevel overworld, BlockPos sharedSpawn) {
+        for (int offset = 0; offset <= 16; offset++) {
+            BlockPos candidate = sharedSpawn.above(offset);
+            if (!overworld.getBlockState(candidate).isSolid()
+                    && !overworld.getBlockState(candidate.above()).isSolid()
+                    && overworld.getBlockState(candidate.below()).isSolid()) {
+                return candidate;
+            }
+        }
+        return sharedSpawn;
     }
 
     public static void sendBlockedMessage(ServerPlayer player, String dimensionId, Instant unlockAt) {

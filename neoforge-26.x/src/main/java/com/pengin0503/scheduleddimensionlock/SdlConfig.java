@@ -39,7 +39,7 @@ public final class SdlConfig {
                 .define("opBypass", true);
 
         EVACUATE_ON_LOCK = builder
-                .comment("If true, non-bypass players inside a dimension are evacuated to Overworld spawn when it locks.")
+                .comment("true: players inside are evacuated when a dimension locks and are also removed if found inside later (login/respawn/periodic check). false: players already inside may stay; entering a locked dimension is still blocked.")
                 .define("evacuateOnLock", true);
 
         ANNOUNCE_COUNTDOWN = builder
