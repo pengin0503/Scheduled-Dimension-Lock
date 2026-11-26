@@ -1,0 +1,36 @@
+{
+  "message.scheduleddimensionlock.blocked": "%s is currently locked.",
+  "message.scheduleddimensionlock.blocked_until": "%s is currently locked. Unlocks in %s.",
+  "message.scheduleddimensionlock.evacuated": "%s is locked. You have been returned to the Overworld spawn.",
+  "message.scheduleddimensionlock.announce.unlocked": "[Scheduled Dimension Lock] %s is now unlocked!",
+  "message.scheduleddimensionlock.announce.locked": "[Scheduled Dimension Lock] %s has been locked.",
+  "message.scheduleddimensionlock.announce.countdown_unlock": "[Scheduled Dimension Lock] %s will unlock in %s.",
+  "message.scheduleddimensionlock.announce.countdown_lock": "[Scheduled Dimension Lock] %s will lock in %s.",
+
+  "command.scheduleddimensionlock.status.header": "=== Dimension Lock Status (TZ: %s) ===",
+  "command.scheduleddimensionlock.status.empty": "No dimensions are currently locked or scheduled.",
+  "command.scheduleddimensionlock.status.state.locked": "LOCKED",
+  "command.scheduleddimensionlock.status.state.unlocked": "UNLOCKED",
+  "command.scheduleddimensionlock.status.line": "%s: %s",
+  "command.scheduleddimensionlock.status.line_unlock": "%s: %s (unlocks at %s, in %s)",
+  "command.scheduleddimensionlock.status.line_lock": "%s: %s (locks at %s, in %s)",
+  "command.scheduleddimensionlock.status.detail.header": "=== Status: %s (TZ: %s) ===",
+  "command.scheduleddimensionlock.status.detail.state": "State: %s",
+  "command.scheduleddimensionlock.status.detail.unlock_at": "Scheduled Unlock: %s (in %s)",
+  "command.scheduleddimensionlock.status.detail.lock_at": "Scheduled Lock: %s (in %s)",
+  "command.scheduleddimensionlock.status.detail.none": "No scheduled transitions.",
+
+  "command.scheduleddimensionlock.lock.success": "Locked %s (evacuated %s player(s)).",
+  "command.scheduleddimensionlock.unlock.success": "Unlocked %s.",
+  "command.scheduleddimensionlock.unlock.schedule_retained": "Note: existing schedule was not cleared. Use /sdl schedule %s clear to remove it.",
+  "command.scheduleddimensionlock.schedule.unlock_set": "Scheduled %s to unlock at %s (in %s).",
+  "command.scheduleddimensionlock.schedule.lock_set": "Scheduled %s to lock at %s (in %s).",
+  "command.scheduleddimensionlock.schedule.window_set": "Scheduled open window for %s: %s -> %s.",
+  "command.scheduleddimensionlock.schedule.cleared": "Cleared all schedules for %s.",
+  "command.scheduleddimensionlock.schedule.nothing_to_clear": "No schedules were set for %s.",
+  "command.scheduleddimensionlock.evacuate.success": "Evacuated %s player(s) from %s to the Overworld spawn.",
+  "command.scheduleddimensionlock.reload.success": "Reloaded Scheduled Dimension Lock configuration (TZ: %s).",
+
+  "command.scheduleddimensionlock.error.overworld": "The Overworld (minecraft:overworld) cannot be locked or scheduled.",
+  "command.scheduleddimensionlock.error.invalid_argument": "Invalid argument: %s"
+}

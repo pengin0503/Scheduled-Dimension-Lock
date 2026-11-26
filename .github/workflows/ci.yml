@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  core-test:
+    name: Core Unit Tests (JUnit 5)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Run core tests
+        run: ./gradlew :core:test
+
+  build-1-21-1:
+    name: Build NeoForge 1.21.1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Build and test 1.21.1
+        run: ./gradlew :core:test :neoforge-1.21.1:build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: scheduleddimensionlock-neoforge-1.21.1
+          path: neoforge-1.21.1/build/libs/*.jar
+
+  build-26-x:
+    name: Build NeoForge ${{ matrix.mc }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - mc: '26.1.2'
+            neoforge: '26.1.2.130'
+            upload: true
+          - mc: '26.2'
+            neoforge: '26.2.0.95'
+            upload: false
+          - mc: '26.3'
+            neoforge: '26.3.0.118'
+            upload: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Build and test ${{ matrix.mc }}
+        run: ./gradlew :core:test :neoforge-26.x:build -PtargetNeoforgeVersion=${{ matrix.neoforge }}
+      - uses: actions/upload-artifact@v4
+        if: matrix.upload
+        with:
+          name: scheduleddimensionlock-neoforge-26.x
+          path: neoforge-26.x/build/libs/*.jar

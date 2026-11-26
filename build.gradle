@@ -1,0 +1,16 @@
+plugins {
+    id 'net.neoforged.moddev' version "${moddevgradle_version}" apply false
+}
+
+allprojects {
+    group = mod_group_id
+    version = mod_version
+
+    repositories {
+        mavenCentral()
+        maven {
+            name = 'NeoForged'
+            url = 'https://maven.neoforged.net/releases'
+        }
+    }
+}

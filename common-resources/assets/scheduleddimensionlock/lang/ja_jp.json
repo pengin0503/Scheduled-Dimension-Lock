@@ -1,0 +1,36 @@
+{
+  "message.scheduleddimensionlock.blocked": "%s は現在ロックされています。",
+  "message.scheduleddimensionlock.blocked_until": "%s は現在ロックされています。解禁まで残り %s です。",
+  "message.scheduleddimensionlock.evacuated": "%s はロックされているため、オーバーワールドのスポーン地点へ退避しました。",
+  "message.scheduleddimensionlock.announce.unlocked": "[Scheduled Dimension Lock] %s が解禁されました！",
+  "message.scheduleddimensionlock.announce.locked": "[Scheduled Dimension Lock] %s がロックされました。",
+  "message.scheduleddimensionlock.announce.countdown_unlock": "[Scheduled Dimension Lock] %s はあと %s で解禁されます。",
+  "message.scheduleddimensionlock.announce.countdown_lock": "[Scheduled Dimension Lock] %s はあと %s でロックされます。",
+
+  "command.scheduleddimensionlock.status.header": "=== ディメンションロック状態 (TZ: %s) ===",
+  "command.scheduleddimensionlock.status.empty": "ロック中またはスケジュール設定済みのディメンションはありません。",
+  "command.scheduleddimensionlock.status.state.locked": "ロック中",
+  "command.scheduleddimensionlock.status.state.unlocked": "解禁中",
+  "command.scheduleddimensionlock.status.line": "%s: %s",
+  "command.scheduleddimensionlock.status.line_unlock": "%s: %s (解禁予定: %s / 残り %s)",
+  "command.scheduleddimensionlock.status.line_lock": "%s: %s (再ロック予定: %s / 残り %s)",
+  "command.scheduleddimensionlock.status.detail.header": "=== 状態: %s (TZ: %s) ===",
+  "command.scheduleddimensionlock.status.detail.state": "現在の状態: %s",
+  "command.scheduleddimensionlock.status.detail.unlock_at": "解禁予定: %s (残り %s)",
+  "command.scheduleddimensionlock.status.detail.lock_at": "再ロック予定: %s (残り %s)",
+  "command.scheduleddimensionlock.status.detail.none": "予約されたスケジュールはありません。",
+
+  "command.scheduleddimensionlock.lock.success": "%s をロックしました（%s 人を退避）。",
+  "command.scheduleddimensionlock.unlock.success": "%s を解禁しました。",
+  "command.scheduleddimensionlock.unlock.schedule_retained": "注意: 既存のスケジュールは解除されていません。解除するには /sdl schedule %s clear を実行してください。",
+  "command.scheduleddimensionlock.schedule.unlock_set": "%s の解禁を %s（残り %s）に予約しました。",
+  "command.scheduleddimensionlock.schedule.lock_set": "%s の再ロックを %s（残り %s）に予約しました。",
+  "command.scheduleddimensionlock.schedule.window_set": "%s の開放ウィンドウを設定しました: %s -> %s",
+  "command.scheduleddimensionlock.schedule.cleared": "%s のスケジュールをすべて解除しました。",
+  "command.scheduleddimensionlock.schedule.nothing_to_clear": "%s には設定されたスケジュールがありません。",
+  "command.scheduleddimensionlock.evacuate.success": "%s から %s 人をオーバーワールドのスポーン地点へ退避しました。",
+  "command.scheduleddimensionlock.reload.success": "Scheduled Dimension Lock の設定を再読み込みしました (TZ: %s)。",
+
+  "command.scheduleddimensionlock.error.overworld": "オーバーワールド (minecraft:overworld) はロック・スケジュール対象にできません。",
+  "command.scheduleddimensionlock.error.invalid_argument": "引数が不正です: %s"
+}
